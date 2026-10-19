@@ -1,0 +1,18 @@
+#!/bin/bash
+
+archive_file() {
+    tar -cf "$1.tar" "$1"
+}
+
+dir="$1"
+limit="$2"
+
+for file in "$dir"/*
+do
+    if [ -f "$file" ]; then
+        size=$(stat -c %s "$file")
+        if [ "$size" -gt "$limit" ]; then
+            archive_file "$file"
+        fi
+    fi
+done
